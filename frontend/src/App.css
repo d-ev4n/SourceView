@@ -1,0 +1,692 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* =========================================
+   GLOBAL RESET
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+#root {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+body {
+  font-family: "Inter", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* =========================================
+   DARK MODE — CHARCOAL + WHITE
+========================================= */
+
+.app.dark {
+  --bg: #111214;
+  --header: #151618;
+  --sidebar: #17181a;
+  --card: #1c1d20;
+  --input: #151619;
+  --text: #eeeeef;
+  --muted: #92959b;
+  --border: #303236;
+  --accent: #e1e3e6;
+  --accent2: #b5b8be;
+  --graph: #111214;
+  --shadow: transparent;
+  --button-text: #111214;
+}
+
+/* =========================================
+   LIGHT MODE — WHITE + CHARCOAL
+========================================= */
+
+.app.light {
+  --bg: #f5f5f3;
+  --header: #ffffff;
+  --sidebar: #ededeb;
+  --card: #ffffff;
+  --input: #f8f8f7;
+  --text: #1a1b1e;
+  --muted: #777a80;
+  --border: #dfe0e1;
+  --accent: #292b2f;
+  --accent2: #55585e;
+  --graph: #ffffff;
+  --shadow: transparent;
+  --button-text: #ffffff;
+}
+
+/* =========================================
+   APP CONTAINER
+========================================= */
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  padding: 16px 24px;
+
+  background: var(--header);
+  border-bottom: 1px solid var(--border);
+}
+
+.header h1 {
+  margin: 0;
+  color: var(--text);
+
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.header p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status {
+  padding: 8px 12px;
+  border-radius: 6px;
+
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* =========================================
+   DARK / LIGHT TOGGLE
+========================================= */
+
+.theme-toggle {
+  padding: 9px 13px;
+
+  background: var(--card);
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--muted);
+  background: var(--input);
+}
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+
+  min-height: calc(100vh - 75px);
+}
+
+.sidebar {
+  min-width: 0;
+  padding: 14px;
+
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+}
+
+.workspace {
+  min-width: 0;
+  padding: 18px;
+}
+
+/* =========================================
+   PANELS
+========================================= */
+
+.panel {
+  padding: 16px;
+  margin-bottom: 14px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  box-shadow: none;
+  transition: border-color 0.2s ease;
+}
+
+.panel:hover {
+  border-color: var(--muted);
+}
+
+.panel h2 {
+  margin: 0 0 14px;
+
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* =========================================
+   FORMS
+========================================= */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  min-width: 0;
+
+  padding: 11px 12px;
+
+  background: var(--input);
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  font-size: 12px;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--muted);
+  box-shadow: none;
+}
+
+textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+select {
+  cursor: pointer;
+}
+
+select option {
+  background: var(--card);
+  color: var(--text);
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button {
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 6px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+form button {
+  background: var(--accent);
+  color: var(--button-text);
+}
+
+form button:hover {
+  opacity: 0.85;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 3px;
+}
+
+/* =========================================
+   NOTIFICATIONS
+========================================= */
+
+.message {
+  padding: 11px;
+  margin-top: 12px;
+
+  color: var(--text);
+  background: var(--card);
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================
+   WORKSPACE TITLE
+========================================= */
+
+.workspace-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 14px;
+}
+
+.workspace-title h2 {
+  margin: 0;
+
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+.workspace-title p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.workspace-title span {
+  padding: 8px 12px;
+
+  background: var(--card);
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* =========================================
+   KNOWLEDGE GRAPH
+========================================= */
+
+.graph {
+  width: 100%;
+  height: clamp(300px, 48vh, 450px);
+  min-width: 0;
+
+  background: var(--graph);
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.react-flow {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+/* =========================================
+   REACT FLOW CONTROLS
+========================================= */
+
+.react-flow__controls {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.react-flow__controls button {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+
+  background: var(--card);
+  color: var(--text);
+
+  box-shadow: none;
+}
+
+.react-flow__controls button:hover {
+  background: var(--sidebar);
+}
+
+.react-flow__controls button svg {
+  fill: var(--text);
+}
+
+/* =========================================
+   REACT FLOW MINIMAP
+========================================= */
+
+.react-flow__minimap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  overflow: hidden;
+}
+
+.react-flow__attribution {
+  background: var(--card);
+  color: var(--muted);
+}
+
+.react-flow__attribution a {
+  color: var(--muted);
+}
+
+/* =========================================
+   BOTTOM PANELS
+========================================= */
+
+.bottom-panels {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.bottom-panels .panel {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+/* =========================================
+   SOURCE & RELATIONSHIP LISTS
+========================================= */
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-item > div {
+  min-width: 0;
+}
+
+.list-item strong {
+  display: block;
+
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+.list-item small {
+  display: block;
+  margin-top: 4px;
+
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+.list-item a {
+  display: inline-block;
+  margin-top: 7px;
+
+  color: var(--text);
+  font-size: 11px;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  overflow-wrap: anywhere;
+}
+
+.list-item a:hover {
+  opacity: 0.7;
+}
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.list-item button:not(.danger) {
+  padding: 7px 10px;
+
+  background: var(--input) !important;
+  color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+  border-radius: 6px;
+
+  font-size: 11px;
+}
+
+.list-item button:not(.danger):hover {
+  background: var(--sidebar) !important;
+}
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.danger {
+  flex-shrink: 0;
+
+  padding: 7px 10px;
+
+  background: var(--input);
+  color: var(--muted);
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  font-size: 11px;
+}
+
+.danger:hover {
+  color: #e16b75;
+  border-color: #e16b75;
+}
+
+/* =========================================
+   EMPTY STATES
+========================================= */
+
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* =========================================
+   SMALL LAPTOPS
+========================================= */
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 255px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding: 12px;
+  }
+
+  .workspace {
+    padding: 14px;
+  }
+
+  .bottom-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header {
+    padding: 14px 16px;
+    flex-wrap: wrap;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .workspace {
+    padding: 14px;
+  }
+
+  .graph {
+    height: 350px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .status,
+  .theme-toggle {
+    font-size: 10px;
+  }
+
+  .workspace-title h2 {
+    font-size: 16px;
+  }
+
+  .workspace-title p {
+    font-size: 10px;
+  }
+
+  .graph {
+    height: 300px;
+  }
+
+  .bottom-panels {
+    gap: 12px;
+  }
+
+  .list-item {
+    align-items: flex-start;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
