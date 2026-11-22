@@ -958,10 +958,41 @@ export default function App() {
   const [relation, setRelation] =
     useState("related");
 
+  const [customRelationships, setCustomRelationships] = useState([]);
+  const [customRelationshipName, setCustomRelationshipName] = useState("");
+  const [showCustomRelationship, setShowCustomRelationship] = useState(false);
+
   const [
     showRelationshipHelp,
     setShowRelationshipHelp,
   ] = useState(false);
+
+  function addCustomRelationship() {
+  const name = customRelationshipName.trim();
+
+  if (!name) return;
+
+  const value = name.toLowerCase();
+
+  const existing = [
+    "related",
+    "supports",
+    "contradicts",
+    "expands",
+    ...customRelationships,
+  ];
+
+  if (existing.some((item) => item.toLowerCase() === value)) {
+    setMessage("This relationship already exists.");
+    return;
+  }
+
+  setCustomRelationships((previous) => [...previous, name]);
+  setRelation(name);
+  setCustomRelationshipName("");
+  setShowCustomRelationship(false);
+  setMessage("Custom relationship added.");
+}
 
   // ========================================
   // SEARCH AND SETTINGS
@@ -1901,8 +1932,40 @@ export default function App() {
                 <option value="expands">
                   Expands
                 </option>
+                  {customRelationships.map((name) => (
+                <option key={name} value={name}>
+                   {name}
+                </option>
+                  ))}
               </select>
+              <button
+                    type="button"
+                    onClick={() => setShowCustomRelationship(true)}
+                                >
+                     + Add Custom Relationship
+                </button>
 
+                {showCustomRelationship && (
+                <div>
+                <input
+                  type="text"
+                  placeholder="e.g. Inspired By"
+                  value={customRelationshipName}
+                  onChange={(e) => setCustomRelationshipName(e.target.value)}
+                />
+
+                <button type="button" onClick={addCustomRelationship}>
+                  Add
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setShowCustomRelationship(false)}
+                  >
+                  Cancel
+                </button>
+                </div>
+                )}
               {/* ==================================
                   RELATIONSHIP HELP GUIDE
                   ================================== */}
