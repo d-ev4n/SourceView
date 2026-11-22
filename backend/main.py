@@ -1,6 +1,6 @@
 
 from contextlib import asynccontextmanager
-from typing import Optional, Literal
+from typing import Optional
 
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -62,26 +62,22 @@ app.include_router(auth_router)
 # SCHEMAS
 # -------------------------
 
-SourceType = Literal[
-    "article",
-    "website",
-    "paper",
-    "note",
-]
+# Supports default and custom source types.
+SourceType = str
 
-RelationshipType = Literal[
-    "related",
-    "supports",
-    "contradicts",
-    "expands",
-]
+# Supports default and custom relationship types.
+RelationshipType = str
 
 
 class SourceCreate(BaseModel):
     title: str = Field(min_length=1, max_length=200)
     url: Optional[str] = None
     description: Optional[str] = None
-    source_type: SourceType
+    source_type: SourceType = Field(
+        min_length=1,
+        max_length=100,
+        pattern=r".*\S.*",
+    )
 
 
 class SourceUpdate(BaseModel):
@@ -92,7 +88,12 @@ class SourceUpdate(BaseModel):
     )
     url: Optional[str] = None
     description: Optional[str] = None
-    source_type: Optional[SourceType] = None
+    source_type: Optional[SourceType] = Field(
+        default=None,
+        min_length=1,
+        max_length=100,
+        pattern=r".*\S.*",
+    )
 
 
 class SourceResponse(BaseModel):
@@ -108,7 +109,11 @@ class SourceResponse(BaseModel):
 class ConnectionCreate(BaseModel):
     source_id: int
     target_id: int
-    relationship_type: RelationshipType
+    relationship_type: RelationshipType = Field(
+        min_length=1,
+        max_length=100,
+        pattern=r".*\S.*",
+    )
 
 
 class ConnectionResponse(BaseModel):
