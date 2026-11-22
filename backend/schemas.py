@@ -1,20 +1,20 @@
 
 from datetime import datetime
-from typing import Literal
 from pydantic import BaseModel, Field, ConfigDict
 
-SourceType = Literal["article", "website", "paper", "note"]
 
-RelationshipType = Literal[
-    "related", "supports", "contradicts", "expands"
-]
+# Default and custom source types
+SourceType = str
+
+# Default and custom relationship types
+RelationshipType = str
 
 
 class SourceCreate(BaseModel):
     title: str = Field(min_length=1, max_length=200)
     url: str | None = None
     description: str | None = None
-    source_type: SourceType
+    source_type: SourceType = Field(min_length=1, max_length=100)
 
 
 class SourceResponse(SourceCreate):
@@ -27,7 +27,10 @@ class SourceResponse(SourceCreate):
 class ConnectionCreate(BaseModel):
     source_id: int
     target_id: int
-    relationship_type: RelationshipType
+    relationship_type: RelationshipType = Field(
+        min_length=1,
+        max_length=100
+    )
 
 
 class ConnectionResponse(ConnectionCreate):

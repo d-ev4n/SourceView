@@ -48,7 +48,9 @@ class Source(Base):
     title = Column(String(200), nullable=False)
     url = Column(Text, nullable=True)
     description = Column(Text, nullable=True)
-    source_type = Column(String(20), nullable=False)
+
+    # Supports default and custom source types
+    source_type = Column(String(100), nullable=False)
 
     created_at = Column(
         DateTime(timezone=True),
@@ -76,7 +78,7 @@ class Source(Base):
             name="valid_source_title",
         ),
         CheckConstraint(
-            "source_type IN ('article', 'website', 'paper', 'note')",
+            "length(btrim(source_type)) > 0",
             name="valid_source_type",
         ),
     )
@@ -99,7 +101,8 @@ class Connection(Base):
         nullable=False,
     )
 
-    relationship_type = Column(String(20), nullable=False)
+    # Supports default and custom relationship types
+    relationship_type = Column(String(100), nullable=False)
 
     __table_args__ = (
         CheckConstraint(
@@ -107,8 +110,7 @@ class Connection(Base):
             name="no_self_connection",
         ),
         CheckConstraint(
-            "relationship_type IN "
-            "('related', 'supports', 'contradicts', 'expands')",
+            "length(btrim(relationship_type)) > 0",
             name="valid_relationship_type",
         ),
         UniqueConstraint(
