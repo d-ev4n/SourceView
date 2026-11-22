@@ -119,6 +119,4 @@ SourceView is an independent portfolio project developed to demonstrate practica
 
 **Devadarsan S**
 
-## Status
 
-Core features implemented. Final testing and deployment preparation are ongoing.
