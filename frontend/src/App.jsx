@@ -34,7 +34,7 @@ import AuthPage from "./AuthPage";
 const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 const MIN_HEIGHT = 250;
-const MAX_HEIGHT = 500;
+const MAX_HEIGHT = 1000;
 const DEFAULT_HEIGHT = 400;
 
 const NODE_WIDTH = 190;
