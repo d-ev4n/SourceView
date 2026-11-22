@@ -945,6 +945,41 @@ export default function App() {
   const [sourceType, setSourceType] =
     useState("article");
 
+  // Custom source types are saved in this browser.
+  const [customSourceTypes, setCustomSourceTypes] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("sourceview-custom-source-types") || "[]");
+      return Array.isArray(saved) ? saved.filter((item) => typeof item === "string") : [];
+    } catch {
+      return [];
+    }
+  });
+  const [customSourceTypeName, setCustomSourceTypeName] = useState("");
+  const [showCustomSourceType, setShowCustomSourceType] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("sourceview-custom-source-types", JSON.stringify(customSourceTypes));
+  }, [customSourceTypes]);
+
+  function addCustomSourceType() {
+    const name = customSourceTypeName.trim();
+    if (!name) {
+      setMessage("Please enter a source type name.");
+      return;
+    }
+    const existing = ["article", "website", "paper", "note", ...customSourceTypes];
+    if (existing.some((item) => item.toLowerCase() === name.toLowerCase()) ||
+        (name.toLowerCase() === "research paper")) {
+      setMessage("This source type already exists.");
+      return;
+    }
+    setCustomSourceTypes((previous) => [...previous, name]);
+    setSourceType(name);
+    setCustomSourceTypeName("");
+    setShowCustomSourceType(false);
+    setMessage("Custom source type added.");
+  }
+
   // ========================================
   // RELATIONSHIP FORM
   // ========================================
@@ -1843,7 +1878,31 @@ export default function App() {
                 <option value="note">
                   Note
                 </option>
+
+                {customSourceTypes.map((name) => (
+                  <option key={name} value={name}>{name}</option>
+                ))}
               </select>
+
+              <button
+                type="button"
+                onClick={() => setShowCustomSourceType(true)}
+              >
+                + Add Custom Source Type
+              </button>
+
+              {showCustomSourceType && (
+                <div>
+                  <input
+                    type="text"
+                    placeholder="e.g. Book, Podcast, Blog"
+                    value={customSourceTypeName}
+                    onChange={(event) => setCustomSourceTypeName(event.target.value)}
+                  />
+                  <button type="button" onClick={addCustomSourceType}>Add</button>
+                  <button type="button" onClick={() => setShowCustomSourceType(false)}>Cancel</button>
+                </div>
+              )}
 
               <button type="submit">
                 + Add Source
@@ -2224,6 +2283,15 @@ export default function App() {
               <option value="note">
                 Notes
               </option>
+
+              {Array.from(new Set([
+                ...customSourceTypes,
+                ...sources.map((source) => source.source_type).filter((type) =>
+                  type && !["article", "website", "paper", "note"].includes(type)
+                ),
+              ])).map((name) => (
+                <option key={name} value={name}>{name}</option>
+              ))}
             </select>
 
             <button
